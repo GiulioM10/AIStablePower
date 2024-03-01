@@ -75,3 +75,5 @@ def get_dataloaders(directory: str, split: List[float], batch_size: float):
 
     train_loader = DataLoader(train_set, batch_size=16, shuffle=True)
     val_loader = DataLoader(val_set, 16, False)
+    
+    return (dataset, train_set, val_set, train_loader, val_loader)
