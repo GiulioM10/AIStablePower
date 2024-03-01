@@ -48,12 +48,12 @@ class SimulationDataset(Dataset):
         F_expanded = F.expand(-1, TF.shape[1])
 
         # Concatenate TF and F_expanded along a new dimension
-        input_data = stack([TF, F_expanded], dim=2)  # input_data.shape = (501, 10, 2)
+        input_data = torch.stack([TF, F_expanded], dim=2)  # input_data.shape = (501, 10, 2)
         
-        input_data = torch.tensor(input_data.transpose(2, 0).transpose(1, 2))  # input_data.shape = (2, 501, 10)
+        input_data = input_data.transpose(2, 0).transpose(1, 2)  # input_data.shape = (2, 501, 10)
 
         # Extract observed momentum
-        Mtot = torch.tensor(data['Mtot'])
+        Mtot = data['Mtot']
 
         # Apply the transformations if they exist
         if self.transform:
