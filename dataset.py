@@ -5,7 +5,7 @@ import os
 
 # Custom Dataset class
 class SimulationDataset(Dataset):
-    def __init__(self, directory=os.path.join("..", 'transfer_functions'), transform=None, target_transform=None):
+    def __init__(self, directory='transfer_functions', transform=None, target_transform=None):
         self.transform = transform
         self.target_transform = target_transform
 
@@ -48,6 +48,8 @@ class SimulationDataset(Dataset):
 
         # Concatenate TF and F_expanded along a new dimension
         input_data = stack([TF, F_expanded], dim=2)  # input_data.shape = (501, 10, 2)
+        
+        input_data = input_data.transpose(3, 1).transpose(2, 3)  # input_data.shape = (2, 501, 10)
 
         # Extract observed momentum
         Mtot = data['Mtot']
@@ -64,3 +66,4 @@ class SimulationDataset(Dataset):
         # input_data[:, :, 1] = Frequency, repeated for each generator
         # Mtot is a scalar, the total momentum
         return input_data, Mtot
+    
