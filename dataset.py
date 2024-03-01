@@ -49,7 +49,7 @@ class SimulationDataset(Dataset):
         # Concatenate TF and F_expanded along a new dimension
         input_data = stack([TF, F_expanded], dim=2)  # input_data.shape = (501, 10, 2)
         
-        input_data = input_data.transpose(3, 1).transpose(2, 3)  # input_data.shape = (2, 501, 10)
+        input_data = input_data.transpose(2, 0).transpose(1, 2)  # input_data.shape = (2, 501, 10)
 
         # Extract observed momentum
         Mtot = data['Mtot']
