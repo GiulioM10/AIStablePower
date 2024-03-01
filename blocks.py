@@ -1,10 +1,9 @@
 # GM 05/17/23
 import numpy as np
-from bolcktype import BlockType
+from AIStablePower.blocktype import BlockType
 import torch
 from torch.nn import Module
 import torch.nn as nn
-import fvcore.nn as fvc
 
 class Block(Module):
   def __init__(self,

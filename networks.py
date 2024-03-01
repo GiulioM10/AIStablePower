@@ -1,8 +1,8 @@
 
 import torch
 import torch.nn as nn
-from blocks import BlockFactory
-from bolcktype import BlockType
+from AIStablepower.blocks import BlockFactory
+from AIStablepower.blocktype import BlockType
 
 class StableCNN(nn.Module):
     def __init__(self, blockType: BlockType, stages: int, blocks_per_stage: int, *args, **kwargs) -> None:
