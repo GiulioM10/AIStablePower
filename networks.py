@@ -1,8 +1,8 @@
 
 import torch
 import torch.nn as nn
-from AIStablePower.blocks import BlockFactory
 from AIStablePower.blocktype import BlockType
+from AIStablePower.bolcks import get_block
 
 class StableCNN(nn.Module):
     def __init__(self, blockType: BlockType, stages: int, blocks_per_stage: int, *args, **kwargs) -> None:
@@ -12,7 +12,6 @@ class StableCNN(nn.Module):
         self.stages = stages
         self.blocks_per_stage = blocks_per_stage
         self.blockType = blockType
-        self.factory = BlockFactory()
         
         stem_conv = nn.Sequential(
             nn.Conv2d(2, 16, kernel_size=(5, 1), stride=(5, 1), padding=0),
@@ -33,8 +32,8 @@ class StableCNN(nn.Module):
             inchannels = inchannels*2
             kernel_size -= 2
             for _ in range(self.blocks_per_stage - 1):
-                self.blocks.append(self.factory.get_block(self.blockType, inchannels, inchannels, kernel_size, False))
-            self.blocks.append(self.factory.get_block(self.blockType, inchannels, 2*inchannels * (s != self.stages - 1) + inchannels * (s == self.stages - 1), kernel_size, (s != self.stages - 1)))
+                self.blocks.append(get_block(self.blockType, inchannels, inchannels, kernel_size, False))
+            self.blocks.append(get_block(self.blockType, inchannels, 2*inchannels * (s != self.stages - 1) + inchannels * (s == self.stages - 1), kernel_size, (s != self.stages - 1)))
             
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.fc = nn.Sequential(
