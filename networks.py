@@ -45,7 +45,7 @@ class StableCNN(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         for block in self.blocks:
             x = block(x)
-            x = self.gap(x)
-            x = torch.flatten(x, 1)
-            x = self.fc(x)
-            return x
+        x = self.gap(x)
+        x = torch.flatten(x, 1)
+        x = self.fc(x)
+        return x
