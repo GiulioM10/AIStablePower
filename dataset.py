@@ -1,6 +1,7 @@
+from typing import List
 import numpy as np
 import torch
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset, DataLoader, random_split
 from torch import from_numpy
 import os
 
@@ -67,3 +68,10 @@ class SimulationDataset(Dataset):
         # Mtot is a scalar, the total momentum
         return input_data, Mtot
     
+def get_dataloaders(directory: str, split: List[float], batch_size: float):
+    dataset = SimulationDataset(directory="transfer_functions")
+    generator = torch.Generator().manual_seed(42)
+    train_set, val_set = random_split(dataset, [.75, .25], generator=generator)
+
+    train_loader = DataLoader(train_set, batch_size=16, shuffle=True)
+    val_loader = DataLoader(val_set, 16, False)
