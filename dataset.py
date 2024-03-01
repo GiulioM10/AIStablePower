@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 from torch.utils.data import Dataset, DataLoader
-from torch import stack, from_numpy
+from torch import from_numpy
 import os
 
 # Custom Dataset class
@@ -48,12 +48,11 @@ class SimulationDataset(Dataset):
         F_expanded = F.expand(-1, TF.shape[1])
 
         # Concatenate TF and F_expanded along a new dimension
-        input_data = torch.stack([TF, F_expanded], dim=2)  # input_data.shape = (501, 10, 2)
-        
-        input_data = input_data.transpose(2, 0).transpose(1, 2)  # input_data.shape = (2, 501, 10)
+        input_data = torch.stack([TF, F_expanded], dim=2).transpose(2, 0).transpose(1, 2).to(torch.float32)  # input_data.shape = (2, 501, 10)
+    
 
         # Extract observed momentum
-        Mtot = from_numpy(data['Mtot'])
+        Mtot = from_numpy(data['Mtot']).to(torch.float32)
 
         # Apply the transformations if they exist
         if self.transform:
