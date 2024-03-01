@@ -68,6 +68,8 @@ class SimulationDataset(Dataset):
         # Mtot is a scalar, the total momentum
         return input_data, Mtot
     
+# todo: Normalize the data
+
 def get_dataloaders(directory: str, split: List[float], batch_size: float) -> Tuple[SimulationDataset, List[Dataset], List[DataLoader]]:
     dataset = SimulationDataset(directory=directory)
     generator = torch.Generator().manual_seed(42)
@@ -76,4 +78,4 @@ def get_dataloaders(directory: str, split: List[float], batch_size: float) -> Tu
     for set in splitted_sets:
         loaders.append(DataLoader(set, batch_size=batch_size, shuffle=True))
     
-    return (dataset, splitted_sets, loaders)
+    return (dataset, *splitted_sets, *loaders)
