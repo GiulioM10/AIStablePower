@@ -188,19 +188,10 @@ class MobileNetv3(Block):
       out = out + x
 
     return out
-  
-class BlockFactory():
-  def __init__(self) -> None:
-     self.compatible_blocks = BlockType()
-  
-  def get_block(self, block_type: BlockType, inchannels: int, outchannels: int, kernel_size: int, downsample: bool) -> Block:
-    if block_type not in self.compatible_blocks:
-      raise RuntimeError(f"BlockType {block_type} is not yet supported")
-    return self._build_block(block_type, inchannels, outchannels, kernel_size, downsample)
-  
-  @staticmethod
-  def _build_block(block_type: BlockType, inchannels: int, outchannels: int, kernel_size: int, downsample: bool) -> Block:
-    if block_type == BlockType.ConvNext:
-      return ConvNext(inchannels, outchannels, kernel_size, downsample)
-    else:
-      return MobileNetv3(inchannels, outchannels, kernel_size, downsample)
+ 
+
+def build_block(block_type: BlockType, inchannels: int, outchannels: int, kernel_size: int, downsample: bool) -> Block:
+  if block_type == BlockType.ConvNext:
+    return ConvNext(inchannels, outchannels, kernel_size, downsample)
+  else:
+    return MobileNetv3(inchannels, outchannels, kernel_size, downsample)
