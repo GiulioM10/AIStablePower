@@ -71,7 +71,7 @@ class SimulationDataset(Dataset):
 def get_dataloaders(directory: str, split: List[float], batch_size: float) -> Tuple[SimulationDataset, List[Dataset], List[DataLoader]]:
     dataset = SimulationDataset(directory=directory)
     generator = torch.Generator().manual_seed(42)
-    splitted_sets = random_split(split, generator=generator)
+    splitted_sets = random_split(dataset, split, generator=generator)
     loaders = []
     for set in splitted_sets:
         loaders.append(DataLoader(set, batch_size=batch_size, shuffle=True))
