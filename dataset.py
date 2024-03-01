@@ -53,7 +53,7 @@ class SimulationDataset(Dataset):
         input_data = input_data.transpose(2, 0).transpose(1, 2)  # input_data.shape = (2, 501, 10)
 
         # Extract observed momentum
-        Mtot = data['Mtot']
+        Mtot = from_numpy(data['Mtot'])
 
         # Apply the transformations if they exist
         if self.transform:
