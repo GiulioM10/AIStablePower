@@ -35,6 +35,7 @@ class Gym:
                  lr: float,
                  momentum: float,
                  weight_decay: float,
+                 lr_min:float,
                  t_initial:int,
                  cycle_mul: float,
                  warmup_t: int
