@@ -64,6 +64,7 @@ class Gym:
         self.lr = lr
         self.momentum = momentum
         self.weight_decay = weight_decay
+        self.lr_min = lr_min
         
         self.t_initial = t_initial
         self.cycle_mul = cycle_mul
@@ -105,7 +106,7 @@ class Gym:
         scheduler = CosineLRScheduler(
             optimizer=optimizer,
             t_initial=self.t_initial,
-            lr_min=1e-6,
+            lr_min=self.lr_min,
             cycle_mul=self.cycle_mul,
             warmup_t=self.warmup_t,
             warmup_prefix=True
