@@ -48,4 +48,4 @@ class StableCNN(nn.Module):
         x = self.gap(x)
         x = torch.flatten(x, 1)
         x = self.fc(x)
-        return x
+        return torch.squeeze(x)
