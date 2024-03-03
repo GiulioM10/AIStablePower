@@ -204,7 +204,7 @@ class Gym:
             if epoch >= self.epochs:
                 raise Exception("Model already trained for the desired number of epochs")
             print("------ Epoch {}/{} - Perofrmance on validation set (CHECKPOINT) ------".format(epoch, self.epochs))
-            print("Loss function value: {:.2f} \t Average abs error: {:.2f}%\n".format(loss_value, average_abs_error))
+            print("Loss function value: {:.2f} \t Average abs error: {:.2f}\n".format(loss_value, average_abs_error))
             
             
         else:
@@ -220,16 +220,16 @@ class Gym:
             
             print("------ INITIAL PERFORMANCE ON VALIDATION SET ------")
             loss_value, average_abs_error = self._test(net, loss_function=loss_function)
-            print("Loss function value: {:.2f} \t Average abs error: {:.2f}%\n".format(loss_value, average_abs_error))
+            print("Loss function value: {:.2f} \t Average abs error: {:.2f}\n".format(loss_value, average_abs_error))
             epoch = 0
         
         while epoch < self.epochs:
             train_loss, train_avg_abs_err = self._train(net, optimizer, loss_function)
             loss_value, average_abs_error = self._test(net, loss_function=loss_function)
             print("------ Epoch {}/{} - Perofrmance on train set ------".format(epoch + 1, self.epochs))
-            print("Loss function value: {:.2f} \t Average abs error: {:.2f}%\n".format(train_loss, train_avg_abs_err))
+            print("Loss function value: {:.2f} \t Average abs error: {:.2f}\n".format(train_loss, train_avg_abs_err))
             print("------ Epoch {}/{} - Perofrmance on validation set ------".format(epoch + 1, self.epochs))
-            print("Loss function value: {:.2f} \t Average abs error: {:.2f}%\n".format(loss_value, average_abs_error))
+            print("Loss function value: {:.2f} \t Average abs error: {:.2f}\n".format(loss_value, average_abs_error))
             epoch += 1
             scheduler.step()
             results["val_loss"].append(loss_value)
@@ -250,7 +250,7 @@ class Gym:
         
         print("\n------ PERFORMANCE ON TEST SET AFTER TRAINING ------")
         loss_value, average_abs_error = self._test(net, loss_function=loss_function)
-        print("Loss function value: {:.2f} \t Average abs error: {:.2f}%\n".format(loss_value, average_abs_error))
+        print("Loss function value: {:.2f} \t Average abs error: {:.2f}\n".format(loss_value, average_abs_error))
         
     def compute_performance(self, net: torch.nn.Module, load_from_checkpoint: bool = True) -> tuple:
         """Get the performance metrics for an individual
@@ -278,7 +278,7 @@ class Gym:
         """
         loss_value, average_abs_error = self.compute_performance(net, load_from_checkpoint)
         print("\n------ PERFORMANCE ON TEST SET ------")
-        print("Loss function value: {:.2f} \t Average abs error: {:.2f}%\n".format(loss_value, average_abs_error))
+        print("Loss function value: {:.2f} \t Average abs error: {:.2f}\n".format(loss_value, average_abs_error))
         
     def show_learning_curves(self, save_file: bool = False):
         checkpoint = torch.load(self.directory, map_location = self.device)
