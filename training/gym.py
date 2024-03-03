@@ -127,7 +127,7 @@ class Gym:
         net = net.train()
         tk0 = tqdm(enumerate(self.train_set), total=len(self.train_set))
         for i, (spectra, momenta) in tk0:
-            spectra = spectra.to(self.device).half()
+            spectra = spectra.to(self.device)
             momenta = momenta.to(self.device)
             outputs = net(spectra)
 
