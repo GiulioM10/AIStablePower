@@ -6,6 +6,7 @@ import torch.nn as nn
 from timm.optim.optim_factory import create_optimizer
 from torch.utils.data import DataLoader
 from timm.scheduler.cosine_lr import CosineLRScheduler
+from tqdm import tqdm
 import matplotlib.pyplot as plt
 
 def kaiming_normal(m):
@@ -124,7 +125,8 @@ class Gym:
         absolute_error = 0.0
         
         net = net.train()
-        for spectra, momenta in self.train_set:
+        tk0 = tqdm(enumerate(self.train_set), total=len(self.train_set))
+        for i, (spectra, momenta) in tk0:
             spectra = spectra.to(self.device).half()
             momenta = momenta.to(self.device)
             outputs = net(spectra)
@@ -140,6 +142,7 @@ class Gym:
             
             err = torch.abs(outputs - momenta)
             absolute_error += err.sum.item()
+            tk0.set_postfix(loss=loss.item())
         
         return cumulative_loss, absolute_error/samples
         
@@ -290,7 +293,7 @@ class Gym:
         ax2.plot(np.arange(1, epoch+1), results["train_avg_abs_err"], label = "train")
         ax2.plot(np.arange(1, epoch+1), results["average_abs_error"], label = "validation")
         ax2.set_xlabel('Epochs')
-        ax2.set_ylabel('Accuracy (%)')
+        ax2.set_ylabel('Absolute Average Error')
         ax2.legend()
         if save_file:
             plt.savefig(self.directory + "my_plot.png")
