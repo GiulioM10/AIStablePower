@@ -231,7 +231,7 @@ class Gym:
             print("------ Epoch {}/{} - Perofrmance on validation set ------".format(epoch + 1, self.epochs))
             print("Loss function value: {:.2f} \t Average abs error: {:.2f}\n".format(loss_value, average_abs_error))
             epoch += 1
-            scheduler.step()
+            scheduler.step(epoch)
             results["val_loss"].append(loss_value)
             results["val_abs_err"].append(average_abs_error)
             results["train_loss"].append(train_loss)
