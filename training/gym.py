@@ -107,7 +107,7 @@ class Gym:
             t_initial=self.t_initial,
             lr_min=1e-6,
             cycle_mul=self.cycle_mul,
-            warmup_t=self.warmap_t,
+            warmup_t=self.warmup_t,
             warmup_prefix=True
         )
         return scheduler
