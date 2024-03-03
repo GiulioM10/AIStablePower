@@ -112,7 +112,7 @@ class Gym:
         )
         return scheduler
     
-    def _train(self, net: torch.nn.Module, optimizer, loss_function) -> None:
+    def _train(self, net: torch.nn.Module, optimizer, loss_function, scheduler, num_updates) -> None:
         """Perform an epoch of training for a network
 
         Args:
@@ -127,15 +127,17 @@ class Gym:
         net = net.train()
         tk0 = tqdm(enumerate(self.train_set), total=len(self.train_set))
         for i, (spectra, momenta) in tk0:
+            num_updates += 1
             spectra = spectra.to(self.device)
             momenta = momenta.to(self.device)
             outputs = net(spectra)
 
             loss = loss_function(outputs, momenta)
 
-            optimizer.zero_grad()
             loss.backward()
             optimizer.step()
+            scheduler.step_update(num_updates)
+            optimizer.zero_grad()
             
             samples += spectra.size(dim=0)
             cumulative_loss += loss.item()
@@ -224,7 +226,8 @@ class Gym:
             epoch = 0
         
         while epoch < self.epochs:
-            train_loss, train_avg_abs_err = self._train(net, optimizer, loss_function)
+            num_updates = epoch * len(self.train_set)//self.train_set.batch_size
+            train_loss, train_avg_abs_err = self._train(net, optimizer, loss_function, scheduler, num_updates)
             loss_value, average_abs_error = self._test(net, loss_function=loss_function)
             print("------ Epoch {}/{} - Perofrmance on train set ------".format(epoch + 1, self.epochs))
             print("Loss function value: {:.2f} \t Average abs error: {:.2f}\n".format(train_loss, train_avg_abs_err))
