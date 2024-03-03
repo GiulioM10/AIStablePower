@@ -1,6 +1,6 @@
 # GM 05/17/23
 import numpy as np
-from blocktype import BlockType
+from AIStablePower.models.blocktype import BlockType
 import torch
 from torch.nn import Module
 import torch.nn as nn
