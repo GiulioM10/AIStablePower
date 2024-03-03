@@ -291,7 +291,7 @@ class Gym:
         ax1.set_ylabel('Loss Function')
         ax1.legend()
         ax2.plot(np.arange(1, epoch+1), results["train_abs_err"], label = "train")
-        ax2.plot(np.arange(1, epoch+1), results["average_abs_error"], label = "validation")
+        ax2.plot(np.arange(1, epoch+1), results["val_abs_error"], label = "validation")
         ax2.set_xlabel('Epochs')
         ax2.set_ylabel('Absolute Average Error')
         ax2.legend()
