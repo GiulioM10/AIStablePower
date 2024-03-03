@@ -141,7 +141,7 @@ class Gym:
             cumulative_loss += loss.item()
             
             err = torch.abs(outputs - momenta)
-            absolute_error += err.sum.item()
+            absolute_error += err.sum().item()
             tk0.set_postfix(loss=loss.item())
         
         return cumulative_loss, absolute_error/samples
@@ -174,7 +174,7 @@ class Gym:
                 cumulative_loss += loss.item()
                 
                 err = torch.abs(outputs - momenta)
-                absolute_error += err.sum.item()
+                absolute_error += err.sum().item()
 
         return cumulative_loss, absolute_error/samples
     
