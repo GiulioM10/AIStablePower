@@ -65,8 +65,8 @@ class SimulationDataset(Dataset):
 
         # Extract observed momentum
         Mtot = from_numpy(data['Mtot'])
-        max_y, _ = max(Mtot)
-        min_y, _ = min(Mtot)
+        max_y= max(Mtot)
+        min_y = min(Mtot)
         Mtot =(Mtot - min_y)/(max_y - min_y)
         Mtot = Mtot.to(torch.float32)
 
