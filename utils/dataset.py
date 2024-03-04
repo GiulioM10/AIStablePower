@@ -51,8 +51,8 @@ class SimulationDataset(Dataset):
         # Transform to tensor
         F = from_numpy(F)
         
-        max_f,_ = torch.max(F)
-        min_f,_ = torch.min(F)
+        max_f = max(F)
+        min_f = min(F)
         
         F =(F - min_f)/(max_f - min_f)
         
@@ -65,8 +65,8 @@ class SimulationDataset(Dataset):
 
         # Extract observed momentum
         Mtot = from_numpy(data['Mtot'])
-        max_y, _ = torch.max(Mtot)
-        min_y, _ = torch.min(Mtot)
+        max_y, _ = max(Mtot)
+        min_y, _ = min(Mtot)
         Mtot =(Mtot - min_y)/(max_y - min_y)
         Mtot = Mtot.to(torch.float32)
 
