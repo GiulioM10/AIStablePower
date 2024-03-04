@@ -8,6 +8,7 @@ from torch.utils.data import DataLoader
 from timm.scheduler.cosine_lr import CosineLRScheduler
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+import math
 
 def kaiming_normal(m):
     if isinstance(m, nn.Conv2d) or isinstance(m, nn.Linear):
@@ -228,7 +229,7 @@ class Gym:
             epoch = 0
         
         while epoch < self.epochs:
-            num_updates = epoch * len(self.train_set)//self.train_set.batch_size
+            num_updates = epoch * math.ceil(len(self.train_set)/self.train_set.batch_size)
             train_loss, train_avg_abs_err = self._train(net, optimizer, loss_function, scheduler, num_updates)
             loss_value, average_abs_error = self._test(net, loss_function=loss_function)
             print("------ Epoch {}/{} - Perofrmance on train set ------".format(epoch + 1, self.epochs))
