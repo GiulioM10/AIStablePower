@@ -7,9 +7,11 @@ import os
 
 # Custom Dataset class
 class SimulationDataset(Dataset):
-    def __init__(self, directory='transfer_functions', transform=None, target_transform=None):
+    def __init__(self, directory:str, max_y:float, min_y:float, transform=None, target_transform=None):
         self.transform = transform
         self.target_transform = target_transform
+        self.max_y = max_y
+        self.min_y = min_y
 
         # Save the directories in a list for easy access
         self.data_dir = []
@@ -65,9 +67,7 @@ class SimulationDataset(Dataset):
 
         # Extract observed momentum
         Mtot = from_numpy(data['Mtot'])
-        max_y= max(Mtot)
-        min_y = min(Mtot)
-        Mtot =(Mtot - min_y)/(max_y - min_y)
+        Mtot = (Mtot - self.min_y)/(self.max_y - self.min_y)
         Mtot = Mtot.to(torch.float32)
 
         # Apply the transformations if they exist
@@ -86,7 +86,11 @@ class SimulationDataset(Dataset):
 # todo: Normalize the data
 
 def get_dataloaders(directory: str, split: List[float], batch_size: float) -> Tuple[SimulationDataset, List[Dataset], List[DataLoader]]:
-    dataset = SimulationDataset(directory=directory)
+    dati_max = np.load(os.path.join(directory , 'AC_Hg2_8.66_Hg3_9.03.npz' ))
+    dati_min = np.load(os.path.join(directory , 'AC_Hg2_2.16_Hg3_2.23.npz'))
+    max_y = dati_max['Mtot']
+    min_y = dati_min['Mtot']
+    dataset = SimulationDataset(directory=directory, max_y=max_y, min_y=min_y)
     generator = torch.Generator().manual_seed(42)
     splitted_sets = random_split(dataset, split, generator=generator)
     loaders = []
