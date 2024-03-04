@@ -38,6 +38,11 @@ class SimulationDataset(Dataset):
         TF = np.abs(TF)
         # Transform to tensor
         TF = from_numpy(TF)
+        
+        max_s, _ = torch.max(TF, dim=0, keepdim=True)
+        min_s, _ = torch.min(TF, dim=0, keepdim=True)
+        
+        TF = (TF - min_s)/(max_s - min_s)
 
         # Extract frequencies
         F = data['F']
@@ -45,6 +50,12 @@ class SimulationDataset(Dataset):
         F = F.reshape(F.shape[0], 1)
         # Transform to tensor
         F = from_numpy(F)
+        
+        max_f,_ = torch.max(F)
+        min_f,_ = torch.min(F)
+        
+        Mtot =(F - min_f)/(max_f - min_f)
+        
         # Expand F to match the second dimension of TF
         F_expanded = F.expand(-1, TF.shape[1])
 
@@ -53,7 +64,11 @@ class SimulationDataset(Dataset):
     
 
         # Extract observed momentum
-        Mtot = from_numpy(data['Mtot']).to(torch.float32)
+        Mtot = from_numpy(data['Mtot'])
+        max_y, _ = torch.max(Mtot)
+        min_y, _ = torch.min(Mtot)
+        Mtot =(Mtot - min_y)/(max_y - min_y)
+        Mtot = Mtot.to(torch.float32)
 
         # Apply the transformations if they exist
         if self.transform:
