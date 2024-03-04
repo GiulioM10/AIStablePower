@@ -54,7 +54,7 @@ class SimulationDataset(Dataset):
         max_f,_ = torch.max(F)
         min_f,_ = torch.min(F)
         
-        Mtot =(F - min_f)/(max_f - min_f)
+        F =(F - min_f)/(max_f - min_f)
         
         # Expand F to match the second dimension of TF
         F_expanded = F.expand(-1, TF.shape[1])
